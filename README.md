@@ -6,6 +6,14 @@
 
 The Email Extractor project is designed to automate the processing of customer support emails, focusing on intent classification, named entity recognition (NER), urgency and sentiment detection, priority scoring, and intelligent routing. This repository explores two distinct methodologies: a traditional machine learning (ML) approach and a modern approach utilizing Large Language Models (LLMs) within an n8n automation framework.
 
+## Video Demonstration
+
+Watch a comprehensive demonstration of the Email Extractor project's functionalities, including both the Traditional ML and LLM approaches:
+
+[![Email Extractor Project Demo](images/your_video_thumbnail.png)](https://youtu.be/SvYC3baGY0k)
+
+_Click the image above to watch the full demonstration on YouTube._
+
 ##  Project Structure
 
 The repository is organized into two primary folders, each representing a distinct methodology:
