@@ -4,7 +4,7 @@
 
 The Email Extractor project is designed to automate the processing of customer support emails, focusing on intent classification, named entity recognition (NER), urgency and sentiment detection, priority scoring, and intelligent routing. This repository explores two distinct methodologies: a traditional machine learning (ML) approach and a modern approach utilizing Large Language Models (LLMs) within an n8n automation framework.
 
-## 🏗️ Project Structure
+##  Project Structure
 
 The repository is organized into two primary folders, each representing a distinct methodology:
 
@@ -22,7 +22,7 @@ Email-Extractor/
     └── n8n_workflow.json
 ```
 
-## 📊 Method 1: Traditional ML Approach
+##  Method 1: Traditional ML Approach
 
 This approach utilizes conventional machine learning techniques, specifically Logistic Regression and Random Forest classifiers, alongside a hybrid approach for entity extraction. The pipeline simulates a real-world email processing workflow.
 
@@ -70,7 +70,7 @@ This approach implements the Email Extractor using n8n, an open-source workflow 
 
 A Streamlit dashboard provides a real-time, interactive interface for monitoring processed emails and LLM pipeline results.
 
-## 🚀 How to Use Method 2
+##  How to Use Method 2
 
 ### Live Demo
 
