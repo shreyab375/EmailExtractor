@@ -8,9 +8,9 @@ The Email Extractor project is designed to automate the processing of customer s
 
 ## Video Demonstration
 
-Watch a comprehensive demonstration of the Email Extractor project's functionalities, including both the Traditional ML and LLM approaches:
+Watch a comprehensive demonstration of the Email Extractor project's functionalities with LLM approaches:
 
-[![Email Extractor Project Demo](images/your_video_thumbnail.png)](https://youtu.be/SvYC3baGY0k)
+[![Email Extractor Project Demo](email_extractor_thumbnail.png)](https://youtu.be/SvYC3baGY0k)
 
 _Click the image above to watch the full demonstration on YouTube._
 
