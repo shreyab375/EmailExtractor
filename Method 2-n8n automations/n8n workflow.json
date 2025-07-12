@@ -1,0 +1,723 @@
+{
+  "name": "Email Extractor",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -460,
+        0
+      ],
+      "id": "336402d4-019c-45af-9239-0312d454ae5b",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "916OS4uSPJsEo9ed",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.snippet }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Refund Request"
+            },
+            {
+              "category": "Technical Assistance"
+            },
+            {
+              "category": "Sales"
+            },
+            {
+              "category": "Account Enquiry"
+            },
+            {
+              "category": "Others"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "Please classify the text provided by the user into one of the following categories: {categories}, and use the provided formatting instructions below. Don't explain, and only output the json."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "6eee8fb4-0141-4ff8-9dca-4cb256e09295",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -240,
+        280
+      ],
+      "id": "07ac3126-6343-4665-9b36-1af0886be0e1",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "gYafL523OfyPkXnm",
+          "name": "OpenAi D-talk"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.snippet }}{{ $json.From }}{{ $json.Subject }}",
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"sender\": {\n      \"type\": \"string\"\n    },\n    \"subject\": {\n      \"type\": \"string\"\n    },\n    \"predicted_intent\": {\n      \"type\": \"string\"\n    },\n    \"confidence\": {\n      \"type\": \"number\"\n    },\n    \"extracted_customer_name\": {\n      \"type\": \"string\"\n    },\n    \"extracted_product\": {\n      \"type\": \"string\"\n    },\n    \"extracted_date_of_issue\": {\n      \"type\": \"string\"\n    },\n    \"extracted_requested_action\": {\n      \"type\": \"string\"\n    },\n    \"urgency_level\": {\n      \"type\": \"string\"\n    },\n    \"sentiment_score\": {\n      \"type\": \"number\"\n    },\n    \"priority_score\": {\n      \"type\": \"integer\"\n    },\n    \"routing_recommendation\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"department\": {\n          \"type\": \"Customer Service\"\n        },\n        \"escalation_level\": {\n          \"type\": \"string\"\n        }\n        \n      }\n    }\n  }\n}",
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nFill all the values and keep \"Department\" as \"Customer Service\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        220,
+        -440
+      ],
+      "id": "141c694e-7b64-48ef-a13f-5fbb1a04e226",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        -300
+      ],
+      "id": "a0508709-18f8-4897-83b6-25cbe5346dfb",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "gYafL523OfyPkXnm",
+          "name": "OpenAi D-talk"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.Subject }}{{ $json.snippet }}{{ $json.From }}{{ $json.To }}",
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"sender\": {\n      \"type\": \"string\"\n    },\n    \"subject\": {\n      \"type\": \"string\"\n    },\n    \"predicted_intent\": {\n      \"type\": \"string\"\n    },\n    \"confidence\": {\n      \"type\": \"number\"\n    },\n    \"extracted_customer_name\": {\n      \"type\": \"string\"\n    },\n    \"extracted_product\": {\n      \"type\": \"string\"\n    },\n    \"extracted_date_of_issue\": {\n      \"type\": \"string\"\n    },\n    \"extracted_requested_action\": {\n      \"type\": \"string\"\n    },\n    \"urgency_level\": {\n      \"type\": \"string\"\n    },\n    \"sentiment_score\": {\n      \"type\": \"number\"\n    },\n    \"priority_score\": {\n      \"type\": \"integer\"\n    },\n    \"routing_recommendation\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"department\": {\n          \"type\": \"Technical Support\"\n        },\n        \"escalation_level\": {\n          \"type\": \"string\"\n        }\n        \n      }\n    }\n  }\n}",
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nFill all the values and keep \"Department\" as \"Technical Support\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        220,
+        -180
+      ],
+      "id": "677e1802-05e7-4219-b158-214e12b4d2e2",
+      "name": "Information Extractor1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        -40
+      ],
+      "id": "84cf3436-b26b-490a-a2ff-17db8524b9e0",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "gYafL523OfyPkXnm",
+          "name": "OpenAi D-talk"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.snippet }}{{ $json.From }}{{ $json.Subject }}",
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"sender\": {\n      \"type\": \"string\"\n    },\n    \"subject\": {\n      \"type\": \"string\"\n    },\n    \"predicted_intent\": {\n      \"type\": \"string\"\n    },\n    \"confidence\": {\n      \"type\": \"number\"\n    },\n    \"extracted_customer_name\": {\n      \"type\": \"string\"\n    },\n    \"extracted_product\": {\n      \"type\": \"string\"\n    },\n    \"extracted_date_of_issue\": {\n      \"type\": \"string\"\n    },\n    \"extracted_requested_action\": {\n      \"type\": \"string\"\n    },\n    \"urgency_level\": {\n      \"type\": \"string\"\n    },\n    \"sentiment_score\": {\n      \"type\": \"number\"\n    },\n    \"priority_score\": {\n      \"type\": \"integer\"\n    },\n    \"routing_recommendation\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"department\": {\n          \"type\": \"String\"\n        },\n        \"escalation_level\": {\n          \"type\": \"string\"\n        }\n        \n      }\n    }\n  }\n}",
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nFill all the values and keep \"Department\" as \"Sales\"."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        240,
+        120
+      ],
+      "id": "ff4727c3-4e44-406d-bee0-f731c5847625",
+      "name": "Information Extractor2",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        260
+      ],
+      "id": "8c0acbd7-b28b-4597-9803-b0b616170af2",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "gYafL523OfyPkXnm",
+          "name": "OpenAi D-talk"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.snippet }}{{ $json.Subject }}{{ $json.From }}",
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"sender\": {\n      \"type\": \"string\"\n    },\n    \"subject\": {\n      \"type\": \"string\"\n    },\n    \"predicted_intent\": {\n      \"type\": \"string\"\n    },\n    \"confidence\": {\n      \"type\": \"number\"\n    },\n    \"extracted_customer_name\": {\n      \"type\": \"string\"\n    },\n    \"extracted_product\": {\n      \"type\": \"string\"\n    },\n    \"extracted_date_of_issue\": {\n      \"type\": \"string\"\n    },\n    \"extracted_requested_action\": {\n      \"type\": \"string\"\n    },\n    \"urgency_level\": {\n      \"type\": \"string\"\n    },\n    \"sentiment_score\": {\n      \"type\": \"number\"\n    },\n    \"priority_score\": {\n      \"type\": \"integer\"\n    },\n    \"routing_recommendation\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"department\": {\n          \"type\": \"Account Management\"\n        },\n        \"escalation_level\": {\n          \"type\": \"string\"\n        }\n        \n      }\n    }\n  }\n}",
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nFill all the values and keep \"Department\" as \"Account Management\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        240,
+        380
+      ],
+      "id": "ba5b390e-3776-4e46-acc5-4bb5325b5577",
+      "name": "Information Extractor3"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        260,
+        520
+      ],
+      "id": "d94f8e3d-3290-4c87-8db5-3aa6eb2a571d",
+      "name": "OpenAI Chat Model4",
+      "credentials": {
+        "openAiApi": {
+          "id": "gYafL523OfyPkXnm",
+          "name": "OpenAi D-talk"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 5
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        800,
+        -40
+      ],
+      "id": "77c41e78-0105-4ff1-a93a-2a1c2523d088",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.snippet }}{{ $json.Subject }}{{ $json.From }}",
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"sender\": {\n      \"type\": \"string\"\n    },\n    \"subject\": {\n      \"type\": \"string\"\n    },\n    \"predicted_intent\": {\n      \"type\": \"string\"\n    },\n    \"confidence\": {\n      \"type\": \"number\"\n    },\n    \"extracted_customer_name\": {\n      \"type\": \"string\"\n    },\n    \"extracted_product\": {\n      \"type\": \"string\"\n    },\n    \"extracted_date_of_issue\": {\n      \"type\": \"string\"\n    },\n    \"extracted_requested_action\": {\n      \"type\": \"string\"\n    },\n    \"urgency_level\": {\n      \"type\": \"string\"\n    },\n    \"sentiment_score\": {\n      \"type\": \"number\"\n    },\n    \"priority_score\": {\n      \"type\": \"integer\"\n    },\n    \"routing_recommendation\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"department\": {\n          \"type\": \"Account Management\"\n        },\n        \"escalation_level\": {\n          \"type\": \"string\"\n        }\n        \n      }\n    }\n  }\n}",
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nFill all the values and keep \"Department\" as \"Miscellaneous\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        240,
+        660
+      ],
+      "id": "04a7586f-3abe-45bf-8058-ebf20d900ed6",
+      "name": "Information Extractor4"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        260,
+        800
+      ],
+      "id": "f7ec9f46-1a00-43c2-9841-e7eb5b0b24b3",
+      "name": "OpenAI Chat Model5",
+      "credentials": {
+        "openAiApi": {
+          "id": "gYafL523OfyPkXnm",
+          "name": "OpenAi D-talk"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "binaryPropertyName": "=data",
+        "options": {
+          "rawData": true
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        -20
+      ],
+      "id": "9e10a86b-a2e9-4cbc-8369-760692a23627",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        -20
+      ],
+      "id": "ef11e911-cb77-42a2-89e1-4c5645dc2db6",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "179XQa9LLvivItAPTZZ0o3v6iu_TEBdcF7zFX1eK3r04",
+          "mode": "list",
+          "cachedResultName": "Email Extractor",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/179XQa9LLvivItAPTZZ0o3v6iu_TEBdcF7zFX1eK3r04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/179XQa9LLvivItAPTZZ0o3v6iu_TEBdcF7zFX1eK3r04/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "output.sender",
+              "displayName": "output.sender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.subject",
+              "displayName": "output.subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.predicted_intent",
+              "displayName": "output.predicted_intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.confidence",
+              "displayName": "output.confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.extracted_customer_name",
+              "displayName": "output.extracted_customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.extracted_product",
+              "displayName": "output.extracted_product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.extracted_date_of_issue",
+              "displayName": "output.extracted_date_of_issue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.extracted_requested_action",
+              "displayName": "output.extracted_requested_action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.urgency_level",
+              "displayName": "output.urgency_level",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.sentiment_score",
+              "displayName": "output.sentiment_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.priority_score",
+              "displayName": "output.priority_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.routing_recommendation.department",
+              "displayName": "output.routing_recommendation.department",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output.routing_recommendation.escalation_level",
+              "displayName": "output.routing_recommendation.escalation_level",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1480,
+        -20
+      ],
+      "id": "d928ece0-39cb-4098-9246-65305dacec81",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IZsXgOBdXPAlPQ1o",
+          "name": "Google Sheets account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Information Extractor2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Information Extractor3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Information Extractor4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Information Extractor2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Information Extractor3": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor4": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6e5d26dc-deb2-41a1-96f9-3f3e59ff5556",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6596ae5d08bb6a9b8b8a68a9bc54de7ff6962f3f7f56cf75006ed3b3f861aa14"
+  },
+  "id": "oVykELJ0FhuZovN1",
+  "tags": []
+}

@@ -1,0 +1,14 @@
+From: michael.chen@email.com
+To: support@company.com
+Subject: HELP: SmartFit 5G Fitness Tracker not working properly
+Date: 2024-02-28 14:45:00
+
+Dear Technical Support,
+
+I'm Michael Chen and I'm experiencing serious issues with my SmartFit 5G Fitness Tracker since 2024-02-25. The device keeps freezing randomly and I've tried all basic troubleshooting steps. I need immediate technical assistance.
+
+Order: #ORD234567
+Issue: freezing randomly
+Urgency: High
+
+Please help!

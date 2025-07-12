@@ -1,0 +1,13 @@
+From: daniel.brown@email.com
+To: support@company.com
+Subject: ASAP: Bug report: LuminaLED Smart Bulb malfunction
+Date: 2024-03-25 09:18:00
+
+Technical Issue Report:
+
+Customer: Daniel Brown
+Product: LuminaLED Smart Bulb
+Problem: battery draining quickly since 2024-03-22
+Order: #ORD567890
+
+I've tried restarting and updating firmware but the issue persists. Please provide technical guidance.
