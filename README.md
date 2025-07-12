@@ -104,7 +104,7 @@ For n8n workflow:
 - Gmail API credentials
 - Google Sheets API credentials
 
-## 📈 Comparison of Approaches
+##  Comparison of Approaches
 
 | Feature | Traditional ML | LLM Approach |
 |---------|----------------|--------------|
@@ -115,12 +115,7 @@ For n8n workflow:
 | Cost | Low | Variable (API costs) |
 | Flexibility | Limited | High |
 
-##  Use Cases
 
-- **Customer Support Automation**: Automatically classify and route support emails
-- **Email Triage**: Priority scoring for urgent customer issues
-- **Data Extraction**: Extract structured information from unstructured emails
-- **Workflow Automation**: Integrate with existing support systems
 
 ## Contributing
 
